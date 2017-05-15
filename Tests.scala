@@ -25,7 +25,15 @@ object  Tests {
 
   def check():Boolean={
 
-    def checkS(s:String):Boolean={(solution(s)==brutForceSolution(s))}
+    def checkS(s:String):Boolean={
+      if(solution(s)==brutForceSolution(s))
+        return true
+      else
+      {
+        println("expected "+brutForceSolution(s)+" but result is "+solution(s))
+        return false
+      }
+    }
 
     var res=true
     res&=checkS(OnlyA(100))
@@ -46,6 +54,6 @@ object  Tests {
     if(check())
       println("ok")
     else
-      println("fail")
+      println("fail(*)")
     }
 }
