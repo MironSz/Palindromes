@@ -1,3 +1,6 @@
+import math.max
+import math.min
+
 object Solution{
   def solution(s :String):Int={
       val tb="#"+s+"&*"
@@ -6,15 +9,13 @@ object Solution{
       for(i <- 1 until tb.length)
         tablica(i)=0
       def symetry(a:Int, b:Int):Int=b+b-a
-      def min(a:Int, b:Int):Int= if(a<b) a else b
-      def max(a:Int, b:Int):Int={-1*(min(-a,-b))}
-
       def manacherRec(ob:Int, r:Int, par:Int, prev:Int, res:Int):Int={
 
         var resLocal=res
 
-        for(i<- prev until ob)
-          if(i<tb.length) resLocal=resLocal+tablica(i)
+        for(i<- prev until min(ob,tb.length))
+          if(i<tb.length)
+            resLocal=resLocal+tablica(i)
         if(resLocal>1e8||resLocal<0)
           return -100000000
 
@@ -40,4 +41,5 @@ object Solution{
       res=manacherRec(1,0,1,0,res)
       if(res<0) res=(-1)
       return res;
+    }
 }
