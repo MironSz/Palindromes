@@ -28,6 +28,7 @@ object Solution{
     res=manacherRec(1, 0, 1, 0, res, Array.fill(tb.length)(0) );
     if(res<0) res=(-1)
     return res
+  }
 //////////////////////////////////////////
     def Generator1(length:Int,word1:String,word2:String):String=
     {
@@ -60,7 +61,7 @@ object Solution{
         }
       }
       var res=true
-      res&=checkS(OnlyA(100))
+      res&=checkS(OnlyA(10000))
       res&=checkS(Generator1(100,"abba","bbbabbb"))
       res&=checkS(Generator2(100,"abba","bbbabbb"))
       res&=checkS("a")
