@@ -3,36 +3,31 @@ import math.min
 
 object Solution{
   def solution(s :String):Int={
-      val tb="*"+s+"#"
-      def symetry(a:Int, b:Int):Int={b+b-a}
-      def manacherRec(ob:Int, r:Int, par:Int, prev:Int, res:Int,palLength:Array[Int]):Int={
-        val resLocal=res + (prev until min(ob,tb.length)).foldLeft(0)((x:Int, y:Int)
+    val tb="*"+s+"#"
+    def symetry(a:Int, b:Int):Int={b+b-a}
+    def manacherRec(ob:Int, r:Int, par:Int, prev:Int, res:Int,palLength:Array[Int]):Int={
+      if(ob+r+1-par>=tb.length)
+        return res+(0 until tb.length).foldLeft(0)((x:Int, y:Int)
           =>if(x>=1e8||x<0) -1 else x+palLength(y))
 
-        if(resLocal>1e8||resLocal<0)
-          return -100000000;
+      if(tb(ob+r+1-par)==tb(ob-r-1))
+        return manacherRec(ob,r+1,par,prev,res,palLength)
 
-        if(ob+r+1-par>=tb.length)
-          return resLocal;
-        if(tb(ob+r+1-par)==tb(ob-r-1))
-          return manacherRec(ob,r+1,par,ob,resLocal,palLength);
-
-        palLength(ob)=r
-        def Iter(j:Int,palLength:Array[Int]):Int={
-          palLength(symetry(j,ob))=min  (palLength(j),   j-(ob-r));
-          if(j-palLength(j)-1<=ob-r)
-            return manacherRec( symetry(j,ob),  palLength(symetry(j,ob)), par , ob , resLocal,palLength );
-          else
-            return Iter(j-1,palLength);
-        }
-        if(r>1) return  Iter(ob-1,palLength);
-        else   return manacherRec(ob+max(palLength(ob)-par,1),0,par,ob,resLocal,palLength);
+      palLength(ob)=r
+      def Iter(j:Int,palLength:Array[Int]):Int={
+        palLength(symetry(j,ob))=min  (palLength(j),   j-(ob-r));
+        if(j-palLength(j)-1<=ob-r)
+          return manacherRec( symetry(j,ob),  palLength(symetry(j,ob)), par , ob , res,palLength );
+        else
+          return Iter(j-1,palLength);
       }
-      var res=manacherRec(1,0,0,0,0,Array.fill(tb.length)(0));
-      res=manacherRec(1,0,1,0,res,Array.fill(tb.length)(0));
-      if(res<0) res=(-1)
-      return res
+      if(r>1) return  Iter(ob-1,palLength);
+      else   return manacherRec(ob+max(palLength(ob)-par,1),0,par,ob,res,palLength);
     }
+    var res=manacherRec(1, 0, 0, 0, 0, Array.fill(tb.length)(0) );
+    res=manacherRec(1, 0, 1, 0, res, Array.fill(tb.length)(0) );
+    if(res<0) res=(-1)
+    return res
 //////////////////////////////////////////
     def Generator1(length:Int,word1:String,word2:String):String=
     {
